@@ -27,9 +27,23 @@ const Products = () => {
     { name: 'actions', header: 'Actions', alignment: 'right' }
   ]
 
+  const handleDelete = async id => {
+    try {
+      const isConfirmed = confirm('Are you sure you want to delete this product?')
+      if (!isConfirmed) return
+
+      await axios.delete(`/api/products/${id}`)
+
+      const newProducts = products.filter(product => product.id !== id)
+      setProducts(newProducts)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <div className='mt-12'>
-      <Table fields={tableFields} data={products} />
+      <Table fields={tableFields} data={products} handleDelete={handleDelete} clickable='name' />
     </div>
   )
 }

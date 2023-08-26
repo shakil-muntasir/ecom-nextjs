@@ -1,4 +1,6 @@
-const Table = ({ fields, data }) => {
+import Link from 'next/link'
+
+const Table = ({ fields, data, clickable, handleDelete }) => {
   const classes = field => {
     let classes = ''
 
@@ -41,11 +43,35 @@ const Table = ({ fields, data }) => {
               {data.length > 0 ? (
                 data.map((item, rowIndex) => (
                   <tr key={rowIndex}>
-                    {fields.map((field, columnIndex) => (
-                      <td key={columnIndex} className='px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500'>
-                        {item[field.name]}
-                      </td>
-                    ))}
+                    {fields.map((field, columnIndex) => {
+                      if (field.name === 'actions') {
+                        return (
+                          <td key={columnIndex} className='px-6 py-4 flex items-center justify-end'>
+                            <Link href={`/products/${item['id']}/edit`} className='text-xs bg-cyan-500 text-white px-2 py-0.5 rounded-md font-semibold uppercase'>
+                              Edit
+                            </Link>
+
+                            <button onClick={() => handleDelete(item['id'])} className='ml-1 text-xs bg-red-500 text-white px-2 py-0.5 rounded-md font-semibold uppercase'>
+                              Delete
+                            </button>
+                          </td>
+                        )
+                      } else if (field.name === clickable) {
+                        return (
+                          <td key={columnIndex} className='flex hover:text-cyan-600 hover:cursor-pointer hover:underline text-right whitespace-nowrap text-sm text-gray-500'>
+                            <Link className='flex-1 px-6 py-4 inline-block' href={`/products/${item['id']}`}>
+                              {item[field.name]}
+                            </Link>
+                          </td>
+                        )
+                      } else {
+                        return (
+                          <td key={columnIndex} className='px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500'>
+                            {item[field.name]}
+                          </td>
+                        )
+                      }
+                    })}
                   </tr>
                 ))
               ) : (

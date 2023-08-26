@@ -12,7 +12,7 @@ const Layout = ({ children }) => {
   const [userRoles, setUserRoles] = useState('')
 
   useEffect(() => {
-    if (!state.userInfo) {
+    if (!localStorage.getItem('userInfo')) {
       router.push('/login')
     }
 
@@ -91,7 +91,7 @@ const Layout = ({ children }) => {
 
       <main className='bg-gray-50 flex-1 p-3'>
         <header className='ml-12 flex justify-between items-center'>
-          <h1 className='font-semibold text-3xl tracking-wide uppercase text-gray-900'>{'something'}</h1>
+          <h1 className='font-semibold text-3xl tracking-wide uppercase text-gray-900'>ECOMMERCE APP</h1>
 
           <div className='flex flex-col items-center justify-center'>
             <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className='h-28 w-28 text-cyan-800 rounded-full'>

@@ -17,7 +17,7 @@ export default function Login() {
     if (localStorage.getItem('accessToken') && state.userInfo) {
       router.push('/dashboard')
     }
-  }, [])
+  }, [router])
 
   const handleInput = e => {
     setFormData({
