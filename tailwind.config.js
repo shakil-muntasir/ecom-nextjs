@@ -14,5 +14,6 @@ module.exports = {
       },
     },
   },
+  safelist: ['text-red-600', 'text-sm'],
   plugins: [],
 }
