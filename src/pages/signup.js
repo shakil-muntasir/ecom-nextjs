@@ -37,7 +37,7 @@ export default function Login() {
 
       localStorage.setItem('accessToken', response.data.accessToken)
 
-      router.push('/login')
+      router.push('/dashboard')
     } catch (error) {
       setErrorMessage(() => {
         const errorMessage = error.response.data.message
@@ -49,7 +49,6 @@ export default function Login() {
         }
 
         localStorage.removeItem('accessToken')
-        localStorage.removeItem('userInfo')
 
         return ''
       })
