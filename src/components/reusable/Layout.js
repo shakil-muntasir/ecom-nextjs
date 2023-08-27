@@ -12,6 +12,15 @@ const Layout = ({ children }) => {
   const [user, setUser] = useState(null)
   const [userRoles, setUserRoles] = useState('')
 
+  const excludedPaths = ['/', '/products/details/{id}', '/categories/{id}', '/categories/{id]/products']
+
+  const isRouteExcluded = excludedPaths.some(path => {
+    const regexPattern = path.replace('{id}', '[^/]+')
+    const regex = new RegExp(`^${regexPattern}$`)
+
+    return regex.test(router.pathname)
+  })
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -33,7 +42,6 @@ const Layout = ({ children }) => {
   const submitLogout = async e => {
     try {
       localStorage.removeItem('accessToken')
-
       dispatch({ type: 'SET_USER', payload: null })
 
       router.push('/login')
