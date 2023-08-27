@@ -33,13 +33,7 @@ export default function Login() {
     e.preventDefault()
 
     try {
-      const response = await axios.post('/api/auth/register', formData)
-
-      localStorage.setItem('accessToken', response.data.accessToken)
-
-      const userResponse = await axios.get('/api/auth/user')
-      localStorage.setItem('userInfo', JSON.stringify(userResponse.data))
-      dispatch({ type: 'SET_USER', payload: userResponse.data })
+      await axios.post('/api/auth/register', formData)
 
       router.push('/login')
     } catch (error) {
