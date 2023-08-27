@@ -1,5 +1,6 @@
 import Loading from '@/components/reusable/Loading'
 import { useUser } from '@/store/user'
+import axios from '@/utils/axios'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -11,25 +12,23 @@ const Layout = ({ children }) => {
   const [user, setUser] = useState(null)
   const [userRoles, setUserRoles] = useState('')
 
-  const excludedPaths = ['/', '/products/details/{id}', '/categories/{id}', '/categories/{id]/products']
-
-  const isRouteExcluded = excludedPaths.some(path => {
-    const regexPattern = path.replace('{id}', '[^/]+')
-    const regex = new RegExp(`^${regexPattern}$`)
-
-    return regex.test(router.pathname)
-  })
-
   useEffect(() => {
-    if (!state.userInfo && !isRouteExcluded) {
-      router.push('/login')
-    }
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get('/api/auth/user')
 
-    setUser(() => state.userInfo)
-    setUserRoles(() => state.userInfo?.roles?.join(', '))
+        dispatch({ type: 'SET_USER', payload: response.data })
+
+        setUser(response.data)
+        setUserRoles(response.data?.roles?.join(', '))
+      } catch (error) {
+        router.push('/login')
+      }
+    }
+    fetchUser()
 
     setTimeout(() => setLoading(false), 1000)
-  }, [state.userInfo])
+  }, [children])
 
   const submitLogout = async e => {
     try {

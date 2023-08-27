@@ -37,9 +37,6 @@ export default function Login() {
 
       localStorage.setItem('accessToken', response.data.accessToken)
 
-      const userResponse = await axios.get('/api/auth/user')
-      dispatch({ type: 'SET_USER', payload: userResponse.data })
-
       router.push('/login')
     } catch (error) {
       setErrorMessage(() => {
