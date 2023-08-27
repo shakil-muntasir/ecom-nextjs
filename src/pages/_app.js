@@ -3,7 +3,7 @@ import { UserProvider } from '@/store/user'
 import Layout from '@/components/reusable/Layout'
 
 export default function App({ Component, pageProps, router }) {
-  const excludedRoutes = ['/', '/login', '/register']
+  const excludedRoutes = ['/', '/login', '/register', '/ocreate']
 
   if (excludedRoutes.includes(router.pathname)) {
     return (
