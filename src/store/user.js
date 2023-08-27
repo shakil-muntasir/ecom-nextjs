@@ -33,4 +33,6 @@ const useUser = () => {
   return context
 }
 
+// Fetch or initialize your cart data
+
 export { UserProvider, useUser }

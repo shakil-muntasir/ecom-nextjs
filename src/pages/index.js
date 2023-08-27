@@ -9,6 +9,7 @@ const HomePage = () => {
   const [products, setProducts] = useState([])
   const [categories, setCategories] = useState([])
   const [selectedCategoryId, setSelectedCategoryId] = useState('')
+  const [cart, setCart] = useState([])
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -43,6 +44,15 @@ const HomePage = () => {
 
     fetchProducts()
   }, [selectedCategoryId])
+
+  const addToCart = (productId, quantity) => {
+    console.log('Adding to cart:', productId, quantity)
+    const selectedProduct = products.find(product => product.id === productId)
+    if (selectedProduct) {
+      console.log('Selected Product:', selectedProduct)
+      setCart([...cart, { ...selectedProduct, quantity }])
+    }
+  }
 
   return (
     <main>
@@ -88,7 +98,7 @@ const HomePage = () => {
           ))}
         </select>
       </div>
-      <Card products={products} />
+      <Card products={products} addToCart={addToCart} />
     </main>
   )
 }
