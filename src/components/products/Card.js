@@ -6,13 +6,15 @@ const Card = ({ products, addToCart }) => {
 
   const handleQuantityChange = (productId, event) => {
     const newQuantities = { ...quantities, [productId]: parseInt(event.target.value) }
-
+    console.log('hadnle', newQuantities)
     setQuantities(newQuantities)
   }
+
   const handleAddToCart = product => {
-    const totalPrice = product.price * (quantities[product.id] || 1)
-    const cart = JSON.parse(localStorage.getItem('cart')) || []
-    addToCart(product.id, quantities[product.id])
+    if (Object.keys(quantities).length === 0) {
+      return
+    }
+    addToCart(product.id, quantities[product.id] ?? 0)
   }
 
   return (
@@ -34,7 +36,7 @@ const Card = ({ products, addToCart }) => {
               <button className='bg-orange-500 text-white px-3 py-2 rounded-md font-semibold hover:bg-orange-600'>View</button>
             </Link>
             <div className='flex gap-2'>
-              <input type='number' min='1' value={quantities[product.id] || ''} onChange={e => handleQuantityChange(product.id, e)} className='border rounded-md px-2 py-1 w-16' />
+              <input type='number' min='1' value={quantities[product.id]} onChange={e => handleQuantityChange(product.id, e)} className='border rounded-md pl-3 pr-2 py-1 w-16' />
               <button onClick={() => handleAddToCart(product)} className='bg-orange-500 text-white px-3 py-2 rounded-md font-semibold hover:bg-orange-600'>
                 Add to Cart
               </button>

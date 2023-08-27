@@ -77,7 +77,7 @@ const HomePage = () => {
 
     setCartCount(updatedCart.reduce((total, item) => total + item.quantity, 0))
 
-    localStorage.setItem('cart', JSON.stringify(updatedCart))
+    localStorage.setItem('cart', JSON.stringify(updatedCart || []))
   }
 
   return (
