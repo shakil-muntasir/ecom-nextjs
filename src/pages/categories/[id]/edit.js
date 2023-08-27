@@ -43,13 +43,31 @@ const CategoryEdit = () => {
       console.log('Update response:', response.data) // Log the response from the API
       router.push('/categories')
     } catch (error) {
-      console.log('Update error:', error.response)
-      if (error.response) {
-        setErrorMessage(error.response.data.message || 'Error updating product.')
-      } else {
-        setErrorMessage('An error occurred while updating the product.')
-      }
+      setErrorMessage(() => {
+        const errorMessage = error.response.data.message
+
+        if (typeof errorMessage === 'string') {
+          return errorMessage
+        } else if (typeof errorMessage === 'object') {
+          return Object.values(errorMessage).flat()
+        }
+
+        localStorage.removeItem('accessToken')
+        localStorage.removeItem('userInfo')
+
+        return ''
+      })
     }
+  }
+
+  if (typeof errorMessage === 'string') {
+    var showErrorMessage = <p className='text-red-600 text-sm'>{errorMessage}</p>
+  } else if (typeof errorMessage === 'object') {
+    var showErrorMessage = errorMessage.map((errorMessage, index) => (
+      <p key={index} className='text-red-600 text-sm'>
+        {errorMessage}
+      </p>
+    ))
   }
 
   return (
@@ -59,11 +77,7 @@ const CategoryEdit = () => {
           <form onSubmit={handleUpdate} className='w-full py-16 px-12'>
             <p className='text-3xl mb-4'>Edit Category</p>
             <div className='mt-4 space-y-4'>
-              {errorMessage && (
-                <p>
-                  <span className='text-red-600 mt-2'>{errorMessage}</span>
-                </p>
-              )}
+              {errorMessage && <div className='flex flex-col bg-red-700/10 px-2 py-1 rounded'>{showErrorMessage}</div>}
               <div>
                 <label htmlFor='name' className='block font-medium text-sm text-gray-700'>
                   Name
@@ -73,7 +87,7 @@ const CategoryEdit = () => {
 
               <div className='flex items-center justify-end'>
                 <a
-                  href='/products'
+                  href='/categories'
                   className='mt-3 inline-flex items-center px-4 py-2 border-3 text-gray-900 border-gray-900 rounded-md font-semibold text-xs hover:text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 ml-4'
                 >
                   Cancel

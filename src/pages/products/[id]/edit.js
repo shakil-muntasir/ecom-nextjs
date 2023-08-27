@@ -10,6 +10,7 @@ const ProductEdit = () => {
     name: '',
     price: '',
     quantity: '',
+    description: '',
     categoryId: ''
   })
 
@@ -62,13 +63,31 @@ const ProductEdit = () => {
       console.log('Update response:', response.data) // Log the response from the API
       router.push('/products')
     } catch (error) {
-      console.log('Update error:', error.response)
-      if (error.response) {
-        setErrorMessage(error.response.data.message || 'Error updating product.')
-      } else {
-        setErrorMessage('An error occurred while updating the product.')
-      }
+      setErrorMessage(() => {
+        const errorMessage = error.response.data.message
+
+        if (typeof errorMessage === 'string') {
+          return errorMessage
+        } else if (typeof errorMessage === 'object') {
+          return Object.values(errorMessage).flat()
+        }
+
+        localStorage.removeItem('accessToken')
+        localStorage.removeItem('userInfo')
+
+        return ''
+      })
     }
+  }
+
+  if (typeof errorMessage === 'string') {
+    var showErrorMessage = <p className='text-red-600 text-sm'>{errorMessage}</p>
+  } else if (typeof errorMessage === 'object') {
+    var showErrorMessage = errorMessage.map((errorMessage, index) => (
+      <p key={index} className='text-red-600 text-sm'>
+        {errorMessage}
+      </p>
+    ))
   }
 
   const handleCategoryChange = e => {
@@ -84,11 +103,7 @@ const ProductEdit = () => {
           <form onSubmit={handleUpdate} className='w-full py-16 px-12'>
             <p className='text-3xl mb-4'>Edit products</p>
             <div className='mt-4 space-y-4'>
-              {errorMessage && (
-                <p>
-                  <span className='text-red-600 mt-2'>{errorMessage}</span>
-                </p>
-              )}
+              {errorMessage && <div className='flex flex-col bg-red-700/10 px-2 py-1 rounded'>{showErrorMessage}</div>}
               <div>
                 <label htmlFor='name' className='block font-medium text-sm text-gray-700'>
                   Name
@@ -108,6 +123,12 @@ const ProductEdit = () => {
                   Quantity
                 </label>
                 <input type='text' name='quantity' id='quantity' value={formData.quantity} onChange={handleInput} placeholder='quantity' className='px-3 py-2 border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full' autoComplete='off' />
+              </div>
+              <div>
+                <label htmlFor='description' className='block font-medium text-sm text-gray-700'>
+                  Description
+                </label>
+                <input type='text' name='description' id='description' value={formData.description} onChange={handleInput} placeholder='Enter Description' className='px-3 py-2 border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full' />
               </div>
 
               <div>

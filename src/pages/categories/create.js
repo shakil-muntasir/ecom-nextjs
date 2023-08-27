@@ -25,9 +25,31 @@ export default function CreateProduct() {
       await axios.post('/api/categories', formData)
       router.push('/categories')
     } catch (error) {
-      console.log(error.response)
-      setErrorMessage('An error occurred while submitting the form.')
+      setErrorMessage(() => {
+        const errorMessage = error.response.data.message
+
+        if (typeof errorMessage === 'string') {
+          return errorMessage
+        } else if (typeof errorMessage === 'object') {
+          return Object.values(errorMessage).flat()
+        }
+
+        localStorage.removeItem('accessToken')
+        localStorage.removeItem('userInfo')
+
+        return ''
+      })
     }
+  }
+
+  if (typeof errorMessage === 'string') {
+    var showErrorMessage = <p className='text-red-600 text-sm'>{errorMessage}</p>
+  } else if (typeof errorMessage === 'object') {
+    var showErrorMessage = errorMessage.map((errorMessage, index) => (
+      <p key={index} className='text-red-600 text-sm'>
+        {errorMessage}
+      </p>
+    ))
   }
 
   return (
@@ -37,7 +59,7 @@ export default function CreateProduct() {
           <form onSubmit={handleSubmit} className='w-full py-16 px-12'>
             <p className='text-2xl tracking-wide text-gray-900'>Create Category</p>
             <div className='mt-4 flex flex-col space-y-4'>
-              {errorMessage && <p className='text-red-600 mt-2'>{errorMessage}</p>}
+              {errorMessage && <div className='flex flex-col bg-red-700/10 px-2 py-1 rounded'>{showErrorMessage}</div>}
               <div>
                 <label htmlFor='name' className='block font-medium text-sm text-gray-700'>
                   Name

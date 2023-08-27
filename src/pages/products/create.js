@@ -11,6 +11,7 @@ export default function CreateProduct() {
     price: '',
     quantity: '',
     image: '',
+    description: '',
     categoryId: ''
   })
 
@@ -56,9 +57,31 @@ export default function CreateProduct() {
       })
       router.push('/products')
     } catch (error) {
-      console.log(error.response)
-      setErrorMessage('An error occurred while submitting the form.')
+      setErrorMessage(() => {
+        const errorMessage = error.response.data.message
+
+        if (typeof errorMessage === 'string') {
+          return errorMessage
+        } else if (typeof errorMessage === 'object') {
+          return Object.values(errorMessage).flat()
+        }
+
+        localStorage.removeItem('accessToken')
+        localStorage.removeItem('userInfo')
+
+        return ''
+      })
     }
+  }
+
+  if (typeof errorMessage === 'string') {
+    var showErrorMessage = <p className='text-red-600 text-sm'>{errorMessage}</p>
+  } else if (typeof errorMessage === 'object') {
+    var showErrorMessage = errorMessage.map((errorMessage, index) => (
+      <p key={index} className='text-red-600 text-sm'>
+        {errorMessage}
+      </p>
+    ))
   }
 
   return (
@@ -68,7 +91,7 @@ export default function CreateProduct() {
           <form onSubmit={handleSubmit} className='w-full py-16 px-12'>
             <p className='text-2xl tracking-wide text-gray-900'>Create products</p>
             <div className='mt-4 flex flex-col space-y-4'>
-              {errorMessage && <p className='text-red-600 mt-2'>{errorMessage}</p>}
+              {errorMessage && <div className='flex flex-col bg-red-700/10 px-2 py-1 rounded'>{showErrorMessage}</div>}
               <div>
                 <label htmlFor='name' className='block font-medium text-sm text-gray-700'>
                   Name
@@ -88,6 +111,12 @@ export default function CreateProduct() {
                   Quantity
                 </label>
                 <input type='text' name='quantity' id='quantity' value={formData.quantity} onChange={handleInput} placeholder='Quantity' className='px-3 py-2 border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full' />
+              </div>
+              <div>
+                <label htmlFor='description' className='block font-medium text-sm text-gray-700'>
+                  Description
+                </label>
+                <input type='text' name='description' id='description' value={formData.description} onChange={handleInput} placeholder='Enter Description' className='px-3 py-2 border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full' />
               </div>
               <div>
                 <label htmlFor='image' className='block font-medium text-sm text-gray-700'>
@@ -114,7 +143,7 @@ export default function CreateProduct() {
               <div className='flex items-center justify-end'>
                 <button
                   type='button'
-                  onClick={() => router.push('/dashboard')}
+                  onClick={() => router.push('/products')}
                   className='mt-3 inline-flex items-center px-4 py-2 border-2 text-gray-900 border-gray-900 rounded-md font-semibold text-xs hover:text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 ml-4'
                 >
                   Cancel
