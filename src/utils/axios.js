@@ -16,17 +16,16 @@ axios.interceptors.request.use(config => {
 })
 
 axios.interceptors.response.use(
-  (response) => {
-    return response;
+  response => {
+    return response
   },
-  (error) => {
+  error => {
     if (error.response && error.response.status === 401) {
       // Delete localStorage data here
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('userInfo');
+      localStorage.removeItem('accessToken')
     }
-    return Promise.reject(error);
+    return Promise.reject(error)
   }
-);
+)
 
 export default axios

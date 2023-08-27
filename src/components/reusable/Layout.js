@@ -11,8 +11,17 @@ const Layout = ({ children }) => {
   const [user, setUser] = useState(null)
   const [userRoles, setUserRoles] = useState('')
 
+  const excludedPaths = ['/', '/products/details/{id}', '/categories/{id}', '/categories/{id]/products']
+
+  const isRouteExcluded = excludedPaths.some(path => {
+    const regexPattern = path.replace('{id}', '[^/]+')
+    const regex = new RegExp(`^${regexPattern}$`)
+
+    return regex.test(router.pathname)
+  })
+
   useEffect(() => {
-    if (!localStorage.getItem('userInfo')) {
+    if (!state.userInfo && !isRouteExcluded) {
       router.push('/login')
     }
 
@@ -20,13 +29,12 @@ const Layout = ({ children }) => {
     setUserRoles(() => state.userInfo?.roles?.join(', '))
 
     setTimeout(() => setLoading(false), 1000)
-  }, [state])
+  }, [state.userInfo])
 
   const submitLogout = async e => {
     try {
       localStorage.removeItem('accessToken')
-      localStorage.removeItem('userInfo')
-      // Clear user info from localStorage and context
+
       dispatch({ type: 'SET_USER', payload: null })
 
       router.push('/login')

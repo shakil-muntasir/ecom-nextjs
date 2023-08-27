@@ -14,6 +14,6 @@ module.exports = {
       },
     },
   },
-  safelist: ['text-red-600', 'text-sm'],
+  safelist: ['text-red-600', 'text-sm', 'text-left', 'text-right', 'text-center'],
   plugins: [],
 }

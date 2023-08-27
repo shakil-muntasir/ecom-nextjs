@@ -1,3 +1,4 @@
+import axios from '@/utils/axios'
 import { createContext, useContext, useEffect, useReducer } from 'react'
 
 const UserContext = createContext()
@@ -16,10 +17,20 @@ const UserProvider = ({ children }) => {
 
   useEffect(() => {
     // Load user info from localStorage on initialization
-    const storedUserInfo = localStorage.getItem('userInfo')
-    if (storedUserInfo) {
-      dispatch({ type: 'SET_USER', payload: JSON.parse(storedUserInfo) })
+    const fetchUser = async () => {
+      try {
+        const accessToken = localStorage.getItem('accessToken')
+        if (!accessToken) {
+          return
+        }
+        const response = await axios.get('/api/auth/user')
+
+        dispatch({ type: 'SET_USER', payload: response.data })
+      } catch (error) {
+        console.log(error)
+      }
     }
+    fetchUser()
   }, [])
 
   return <UserContext.Provider value={{ state, dispatch }}>{children}</UserContext.Provider>
