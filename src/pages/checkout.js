@@ -71,6 +71,8 @@ export default function CreateProduct() {
         ...formData,
         totalPrice: parseFloat(formData.totalPrice)
       })
+
+      localStorage.removeItem('cart')
       router.push('/')
     } catch (error) {
       setErrorMessage(() => {
