@@ -8,14 +8,17 @@ export default function Login() {
   const router = useRouter()
 
   const [formData, setFormData] = useState({
+    name: '',
     email: '',
-    password: ''
+    password: '',
+    isActive: true,
+    roles: ['customer']
   })
   const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
     if (localStorage.getItem('accessToken') && state.userInfo) {
-      router.push('/dashboard')
+      router.push('/login')
     }
   }, [router])
 
@@ -26,11 +29,11 @@ export default function Login() {
     })
   }
 
-  const submitLogin = async e => {
+  const submitRegister = async e => {
     e.preventDefault()
 
     try {
-      const response = await axios.post('/api/auth/login', formData)
+      const response = await axios.post('/api/auth/register', formData)
 
       localStorage.setItem('accessToken', response.data.accessToken)
 
@@ -38,7 +41,7 @@ export default function Login() {
       localStorage.setItem('userInfo', JSON.stringify(userResponse.data))
       dispatch({ type: 'SET_USER', payload: userResponse.data })
 
-      router.push('/dashboard')
+      router.push('/login')
     } catch (error) {
       setErrorMessage(() => {
         const errorMessage = error.response.data.message
@@ -70,7 +73,7 @@ export default function Login() {
   return (
     <main>
       <div className='min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100'>
-        <form onSubmit={submitLogin} className='w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg'>
+        <form onSubmit={submitRegister} className='w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg'>
           <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className='mx-auto h-16 w-16 text-[#F47458] mb-6'>
             <path
               strokeLinecap='round'
@@ -80,10 +83,16 @@ export default function Login() {
           </svg>
 
           <p className='text-gray-900'>Welcome to Ecommerce Store!</p>
-          <p className='mt-2 text-xs text-gray-900'>Please sign in to continue</p>
+          <p className='mt-2 text-xs text-gray-900'>Please sign up to continue</p>
 
           <div className='mt-4 flex flex-col space-y-4'>
             {errorMessage && <div className='flex flex-col bg-red-700/10 px-2 py-1 rounded'>{showErrorMessage}</div>}
+            <div>
+              <label htmlFor='name' className='block font-medium text-sm text-gray-700'>
+                Name
+              </label>
+              <input type='text' name='name' id='name' value={formData.name} onChange={handleInput} placeholder='Your Name' autoFocus='on' className='px-3 py-2 border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full' />
+            </div>
 
             <div>
               <label htmlFor='email' className='block font-medium text-sm text-gray-700'>
@@ -100,14 +109,19 @@ export default function Login() {
             </div>
 
             <div className='flex items-center justify-between'>
-              <p className='underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'> Forgot your password? </p>
-
+              <a
+                href='/login'
+                className='inline-flex items-center px-4 py-2 border-3 text-gray-900 border-gray-900 rounded-md font-semibold text-xs hover:text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 
+                active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 '
+              >
+                Already have Account? login
+              </a>
               <button
                 type='submit'
                 className='inline-flex items-center px-4 py-2 bg-[#F47458] border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest 
                 hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-[#F47458] focus:ring-offset-2 transition ease-in-out duration-150 ml-4'
               >
-                Sign in
+                Sign up
               </button>
             </div>
           </div>

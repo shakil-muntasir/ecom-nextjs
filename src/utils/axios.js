@@ -15,4 +15,18 @@ axios.interceptors.request.use(config => {
   return config
 })
 
+axios.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      // Delete localStorage data here
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('userInfo');
+    }
+    return Promise.reject(error);
+  }
+);
+
 export default axios

@@ -1,7 +1,5 @@
-import Layout from '@/components/reusable/Layout'
-
-const Dashboard = () => {
-  return <div>Dashboard</div>
+const CreateProduct = () => {
+  return <div>Create</div>
 }
 
-export default Dashboard
+export default CreateProduct

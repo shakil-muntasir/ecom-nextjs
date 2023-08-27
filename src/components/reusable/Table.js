@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-const Table = ({ fields, data, clickable, handleDelete }) => {
+const Table = ({ fields, data, source, clickable, handleDelete }) => {
   const classes = field => {
     let classes = ''
 
@@ -46,8 +46,8 @@ const Table = ({ fields, data, clickable, handleDelete }) => {
                     {fields.map((field, columnIndex) => {
                       if (field.name === 'actions') {
                         return (
-                          <td key={columnIndex} className='px-6 py-4 flex items-center justify-end'>
-                            <Link href={`/products/${item['id']}/edit`} className='text-xs bg-cyan-500 text-white px-2 py-0.5 rounded-md font-semibold uppercase'>
+                          <td key={columnIndex} className={`px-6 py-4 text-${field.alignment ?? 'left'}`}>
+                            <Link href={`/${source}/${item['id']}/edit`} className='text-xs bg-cyan-500 text-white px-2 py-0.5 rounded-md font-semibold uppercase'>
                               Edit
                             </Link>
 
@@ -58,7 +58,7 @@ const Table = ({ fields, data, clickable, handleDelete }) => {
                         )
                       } else if (field.name === clickable) {
                         return (
-                          <td key={columnIndex} className='flex hover:text-cyan-600 hover:cursor-pointer hover:underline text-right whitespace-nowrap text-sm text-gray-500'>
+                          <td key={columnIndex} className={`flex hover:text-cyan-600 hover:cursor-pointer hover:underline text-${field.alignment ?? 'left'} whitespace-nowrap text-sm text-gray-500`}>
                             <Link className='flex-1 px-6 py-4 inline-block' href={`/products/${item['id']}`}>
                               {item[field.name]}
                             </Link>
@@ -66,7 +66,7 @@ const Table = ({ fields, data, clickable, handleDelete }) => {
                         )
                       } else {
                         return (
-                          <td key={columnIndex} className='px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500'>
+                          <td key={columnIndex} className={`px-6 py-4 text-${field.alignment ?? 'left'} whitespace-nowrap text-sm text-gray-500`}>
                             {item[field.name]}
                           </td>
                         )
