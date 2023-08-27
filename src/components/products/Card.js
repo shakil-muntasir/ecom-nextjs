@@ -1,18 +1,18 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 
 const Card = ({ products, addToCart }) => {
   const [quantities, setQuantities] = useState({})
 
   const handleQuantityChange = (productId, event) => {
-    const newQuantities = { ...quantities, [productId]: parseInt(event.target.value, 10) }
+    const newQuantities = { ...quantities, [productId]: parseInt(event.target.value) }
+
     setQuantities(newQuantities)
   }
-  const handleAddToCart = productId => {
-    console.log('Add to cart clicked for product:', productId)
-    const quantity = quantities[productId] || 1
-    console.log('Selected Quantity:', quantity)
-    addToCart(productId, quantity)
+  const handleAddToCart = product => {
+    const totalPrice = product.price * (quantities[product.id] || 1)
+    const cart = JSON.parse(localStorage.getItem('cart')) || []
+    addToCart(product.id, quantities[product.id])
   }
 
   return (
@@ -34,8 +34,8 @@ const Card = ({ products, addToCart }) => {
               <button className='bg-orange-500 text-white px-3 py-2 rounded-md font-semibold hover:bg-orange-600'>View</button>
             </Link>
             <div className='flex gap-2'>
-              <input type='number' min='1' value={quantities[product.id] || ''} onChange={e => handleQuantityChange(product.id, e)} className='border rounded-md p-1 w-16' />
-              <button onClick={() => handleAddToCart(product.id)} className='bg-orange-500 text-white px-3 py-2 rounded-md font-semibold hover:bg-orange-600'>
+              <input type='number' min='1' value={quantities[product.id] || ''} onChange={e => handleQuantityChange(product.id, e)} className='border rounded-md px-2 py-1 w-16' />
+              <button onClick={() => handleAddToCart(product)} className='bg-orange-500 text-white px-3 py-2 rounded-md font-semibold hover:bg-orange-600'>
                 Add to Cart
               </button>
             </div>

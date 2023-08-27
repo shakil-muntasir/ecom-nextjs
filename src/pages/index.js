@@ -1,17 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useUser } from '@/store/user'
 import axios from '@/utils/axios'
 import Link from 'next/link'
 import Card from '@/components/products/Card'
 
 const HomePage = () => {
-  const { state } = useUser()
   const [products, setProducts] = useState([])
   const [categories, setCategories] = useState([])
   const [selectedCategoryId, setSelectedCategoryId] = useState('')
   const [cart, setCart] = useState([])
+  const [cartCount, setCartCount] = useState(0)
 
   useEffect(() => {
+    setCart(JSON.parse(localStorage.getItem('cart')) || [])
+    setCartCount(cart.reduce((total, item) => total + item.quantity, 0))
+
     const fetchCategories = async () => {
       try {
         const response = await axios.get('/api/categories')
@@ -24,6 +27,10 @@ const HomePage = () => {
 
     fetchCategories()
   }, [])
+
+  useEffect(() => {
+    setCartCount(cart.reduce((total, item) => total + item.quantity, 0))
+  }, [cart])
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -46,12 +53,31 @@ const HomePage = () => {
   }, [selectedCategoryId])
 
   const addToCart = (productId, quantity) => {
-    console.log('Adding to cart:', productId, quantity)
     const selectedProduct = products.find(product => product.id === productId)
-    if (selectedProduct) {
-      console.log('Selected Product:', selectedProduct)
-      setCart([...cart, { ...selectedProduct, quantity }])
+
+    // Check if the selected product is already in the cart
+    const existingCartItemIndex = cart.findIndex(item => item.id === productId)
+
+    let updatedCart = []
+    if (existingCartItemIndex !== -1) {
+      // If the product is already in the cart, update the quantity
+      updatedCart = cart.map((item, index) => {
+        if (index === existingCartItemIndex) {
+          return { ...item, quantity: item.quantity + quantity }
+        }
+        return item
+      })
+
+      setCart(updatedCart)
+    } else {
+      // If the product is not in the cart, add it as a new entry
+      updatedCart = [...cart, { ...selectedProduct, quantity }]
+      setCart(updatedCart)
     }
+
+    setCartCount(updatedCart.reduce((total, item) => total + item.quantity, 0))
+
+    localStorage.setItem('cart', JSON.stringify(updatedCart))
   }
 
   return (
@@ -78,7 +104,10 @@ const HomePage = () => {
               <button className='text-[#F47458] text-orange px-3 py-2 rounded-md font-semibold hover:bg-gray-200'>Sign Up</button>
             </Link>
             <Link href='/cart'>
-              <button className='text-[#F47458] text-orange px-3 py-2 rounded-md font-semibold hover:bg-gray-200'>Cart</button>
+              <button className='flex items-center justify-between gap-x-1.5 text-[#F47458] text-orange px-3 py-2 rounded-md font-semibold hover:bg-gray-200'>
+                <span>Cart</span>
+                <span className='text-xs border border-gray-700 rounded-full w-6 h-6 inline-flex items-center justify-center'>{cartCount}</span>
+              </button>
             </Link>
             <Link href='/orders'>
               <button className='text-[#F47458] text-orange px-3 py-2 rounded-md font-semibold hover:bg-gray-200'>Orders</button>
