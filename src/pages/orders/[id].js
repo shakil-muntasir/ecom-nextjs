@@ -31,13 +31,13 @@ const OrderShow = () => {
     <main className='bg-gray-100 min-h-screen'>
       <div className='mt-4 flex flex-col justify-between items-center'>
         <div className='flex mb-4 flex-col w-2/4 font-semibold text-xl uppercase'>
-          <h1>Orders: {order.id}</h1>
+          <h1 className='mt-4'>{order?.products?.length} Products</h1>
         </div>
         {order?.products?.map(item => (
           <div key={item.id} className='mx-16 flex flex-col  gap-y-2 h-24 w-2/4'>
             <div className='flex items-center justify-start bg-white p-3'>
-              <img src={`/images/shirt.png`} alt={item.name} className='w-16 h-16 object-cover' />
-              <div className=''>
+              <img src={item.image ? item.image : '/images/product.png'} alt={item.name} className='w-16 h-16 object-cover' />
+              <div className='ml-3'>
                 <h2>{item.name}</h2>
                 <p>Price: ${item.price}</p>
               </div>
@@ -46,10 +46,11 @@ const OrderShow = () => {
         ))}
 
         <div className='mx-16 mt-4 flex flex-col  gap-y-2 h-24 w-2/4'>
-          <div className='flex flex-col items-start justify-start'>
-            <p className='font-semibold text-xl'>Total Price: ${order.totalPrice}</p>
-            <p className='font-semibold text-xl'>Address: {order.address}</p>
-            <p className='font-semibold text-xl'>Phone: {order.phone}</p>
+          <div className='flex flex-col items-start justify-start gap-y-2'>
+            <p className='font-semibold text-lg'>Total Price: ${order.totalPrice}</p>
+            <p className='font-semibold text-lg'>Address: {order.address}</p>
+            <p className='font-semibold text-lg'>Phone: {order.phone}</p>
+            <p className='font-semibold text-lg'>Delivery Option: {order.deliveryOption}</p>
           </div>
         </div>
       </div>

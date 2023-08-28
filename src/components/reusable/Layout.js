@@ -44,7 +44,7 @@ const Layout = ({ children }) => {
       localStorage.removeItem('accessToken')
       dispatch({ type: 'SET_USER', payload: null })
 
-      router.push('/login')
+      router.push('/')
     } catch (error) {
       console.log(error)
     }

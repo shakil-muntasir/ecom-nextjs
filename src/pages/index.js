@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Card from '@/components/products/Card'
 
 const HomePage = () => {
+  const { state, dispatch } = useUser()
   const [products, setProducts] = useState([])
   const [categories, setCategories] = useState([])
   const [selectedCategoryId, setSelectedCategoryId] = useState('')
@@ -12,6 +13,18 @@ const HomePage = () => {
   const [cartCount, setCartCount] = useState(0)
 
   useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get('/api/auth/user')
+
+        dispatch({ type: 'SET_USER', payload: response.data })
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    fetchUser()
+
     setCart(JSON.parse(localStorage.getItem('cart')) || [])
     setCartCount(cart.reduce((total, item) => total + item.quantity, 0))
 
@@ -80,6 +93,17 @@ const HomePage = () => {
     localStorage.setItem('cart', JSON.stringify(updatedCart || []))
   }
 
+  const handleLogout = async e => {
+    try {
+      localStorage.removeItem('accessToken')
+      dispatch({ type: 'SET_USER', payload: null })
+
+      router.push('/login')
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <main>
       <nav className='bg-white h-17 border-b-2 border-gray-200'>
@@ -97,12 +121,20 @@ const HomePage = () => {
             </div>
           </Link>
           <div className='ml-auto space-x-4 flex items-center'>
-            <Link href='/login'>
-              <button className='text-[#F47458] text-orange px-3 py-2 rounded-md font-semibold hover:bg-gray-200'>Login</button>
-            </Link>
-            <Link href='/signup'>
-              <button className='text-[#F47458] text-orange px-3 py-2 rounded-md font-semibold hover:bg-gray-200'>Sign Up</button>
-            </Link>
+            {state.userInfo ? (
+              <button onClick={handleLogout} className='text-[#F47458] text-orange px-3 py-2 rounded-md font-semibold hover:bg-gray-200'>
+                Logout
+              </button>
+            ) : (
+              <>
+                <Link href='/login'>
+                  <button className='text-[#F47458] text-orange px-3 py-2 rounded-md font-semibold hover:bg-gray-200'>Login</button>
+                </Link>
+                <Link href='/signup'>
+                  <button className='text-[#F47458] text-orange px-3 py-2 rounded-md font-semibold hover:bg-gray-200'>Sign Up</button>
+                </Link>
+              </>
+            )}
             <Link href='/cart'>
               <button className='flex items-center justify-between gap-x-1.5 text-[#F47458] text-orange px-3 py-2 rounded-md font-semibold hover:bg-gray-200'>
                 <span>Cart</span>
