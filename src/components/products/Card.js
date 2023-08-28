@@ -22,7 +22,7 @@ const Card = ({ products, addToCart }) => {
       {products.map(product => (
         <div key={product.id} className='bg-white rounded-md p-4 shadow-xl'>
           <Link href={`/products/details/${product.id}`}>
-            <img src={`/images/shirt.png`} alt={product.name} className='w-fill h-50 object-cover' />
+            <img src={`/images/product.png`} alt={product.name} className='w-fill h-45 object-cover' />
           </Link>
 
           <Link href={`/products/details/${product.id}`}>

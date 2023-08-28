@@ -77,7 +77,7 @@ export default function Login() {
               />
             </svg>
           </Link>
-          <p className='text-gray-900'>Welcome to Ecommerce Store!</p>
+          <p className='text-gray-900'>Welcome to Sunnah Station!</p>
           <p className='mt-2 text-xs text-gray-900'>Please sign in to continue</p>
 
           <div className='mt-4 flex flex-col space-y-4'>
@@ -98,8 +98,13 @@ export default function Login() {
             </div>
 
             <div className='flex items-center justify-between'>
-              <p className='underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'> Forgot your password? </p>
-
+              <Link
+                href='/signup'
+                className='inline-flex items-center  py-2 border-3 text-gray-900 border-gray-900 rounded-md  text-xs hover:underline tracking-widest 
+                active:bg-gray-900 focus:outline-none transition ease-in-out duration-150 '
+              >
+                New user? Sign up
+              </Link>
               <button
                 type='submit'
                 className='inline-flex items-center px-4 py-2 bg-[#F47458] border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest 

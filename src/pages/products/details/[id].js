@@ -32,7 +32,7 @@ const ProductShow = () => {
           </Link>
           {product.id ? (
             <>
-              <img src={`/images/shirt.png`} alt={product.name} className='w-72 h-72 object-cover' />
+              <img src={`/images/product.png`} alt={product.name} className='w-72 h-72 object-cover' />
               <h2 className='text-lg font-semibold'>{product.name}</h2>
               <p className='text-gray-600'>Price: ${product.price}</p>
               <p className='text-gray-600'>Quantity: {product.quantity}</p>

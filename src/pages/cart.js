@@ -42,7 +42,7 @@ const CartPage = () => {
           cart.map(item => (
             <div key={item.id} className='mx-16 flex flex-col  gap-y-2 h-24 w-2/4'>
               <div className='flex items-center justify-between bg-white p-3'>
-                <img src={`/images/shirt.png`} alt={item.name} className='w-16 h-16 object-cover' />
+                <img src={`/images/producy.png`} alt={item.name} className='w-16 h-16 object-cover' />
                 <div className=''>
                   <h2>{item.name}</h2>
                   <p>

@@ -26,11 +26,11 @@ const Orders = () => {
   }, [])
 
   const tableFields = [
-    { name: 'id', header: 'ID', alignment: 'right' },
+    { name: 'id', header: 'ID', alignment: 'left' },
     { name: 'totalPrice', header: 'Price', alignment: 'right' },
     { name: 'address', header: 'Address', alignment: 'right' },
-    { name: 'phone', header: 'Phone', alignment: 'right' },
-    { name: 'isDelivered', header: 'Delivered', alignment: 'right' }
+    { name: 'phone', header: 'Phone', alignment: 'right' }
+    // { name: 'isDelivered', header: 'Delivered', alignment: 'right' }
     // { name: 'actions', header: 'Actions', alignment: 'right' }
   ]
 
