@@ -29,7 +29,7 @@ const ProductShow = () => {
         <div className='mb-6'>
           {product.id ? (
             <>
-              <img src={`/images/product.png`} alt={product.name} className='w-64 h-64 object-cover' />
+              <img src={product.image ? product.image : '/images/product.png'} alt={product.name} className='w-64 h-64 object-cover' />
               <h2 className='text-lg font-semibold'>{product.name}</h2>
               <p className='text-gray-600'>Price: ${product.price}</p>
               <p className='text-gray-600'>Quantity: {product.quantity}</p>

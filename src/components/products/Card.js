@@ -6,7 +6,6 @@ const Card = ({ products, addToCart }) => {
 
   const handleQuantityChange = (productId, event) => {
     const newQuantities = { ...quantities, [productId]: parseInt(event.target.value) }
-    console.log('hadnle', newQuantities)
     setQuantities(newQuantities)
   }
 
@@ -22,7 +21,7 @@ const Card = ({ products, addToCart }) => {
       {products.map(product => (
         <div key={product.id} className='bg-white rounded-md p-4 shadow-xl'>
           <Link href={`/products/details/${product.id}`}>
-            <img src={`/images/product.png`} alt={product.name} className='w-fill h-45 object-cover' />
+            <img src={product.image ? product.image : '/images/product.png'} alt={product.name} className='w-45 h-45 object-cover' />
           </Link>
 
           <Link href={`/products/details/${product.id}`}>

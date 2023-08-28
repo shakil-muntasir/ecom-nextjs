@@ -37,7 +37,7 @@ const CategoryEdit = () => {
 
   const handleUpdate = async e => {
     e.preventDefault()
-    console.log('submit')
+
     try {
       const response = await axios.patch(`/api/categories/${id}`, formData)
       console.log('Update response:', response.data) // Log the response from the API

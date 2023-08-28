@@ -8,6 +8,7 @@ const ProductEdit = () => {
   const [categories, setCategories] = useState([])
   const [formData, setFormData] = useState({
     name: '',
+    image: '',
     price: '',
     quantity: '',
     description: '',
@@ -52,7 +53,7 @@ const ProductEdit = () => {
 
   const handleUpdate = async e => {
     e.preventDefault()
-    console.log('submit')
+
     try {
       const response = await axios.patch(`/api/products/${id}`, {
         ...formData,
@@ -129,6 +130,13 @@ const ProductEdit = () => {
                   Description
                 </label>
                 <input type='text' name='description' id='description' value={formData.description} onChange={handleInput} placeholder='Enter Description' className='px-3 py-2 border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full' />
+              </div>
+
+              <div>
+                <label htmlFor='image' className='block font-medium text-sm text-gray-700'>
+                  Image URL
+                </label>
+                <input type='text' name='image' id='image' value={formData.image} onChange={handleInput} placeholder='Image URL' className='px-3 py-2 border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full' />
               </div>
 
               <div>

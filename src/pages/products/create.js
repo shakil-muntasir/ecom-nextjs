@@ -120,9 +120,9 @@ export default function CreateProduct() {
               </div>
               <div>
                 <label htmlFor='image' className='block font-medium text-sm text-gray-700'>
-                  Image
+                  Image URL
                 </label>
-                <input type='file' name='image' id='image' value={formData.image} onChange={handleInput} placeholder='Image' className='px-3 py-1.5 border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full' />
+                <input type='text' name='image' id='image' value={formData.image} onChange={handleInput} placeholder='Image URL' className='px-3 py-2 border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full' />
               </div>
 
               <div>

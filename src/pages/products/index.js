@@ -20,9 +20,9 @@ const Products = () => {
   }, [])
 
   const tableFields = [
-    { name: 'id', header: 'ID', alignment: 'right' },
-    { name: 'name', header: 'Name', alignment: 'right' },
-    { name: 'description', header: 'Description', alignment: 'right' },
+    { name: 'id', header: 'ID', alignment: 'left' },
+    { name: 'name', header: 'Name', alignment: 'left' },
+    // { name: 'description', header: 'Description', alignment: 'right' },
     { name: 'price', header: 'Price', alignment: 'right' },
     { name: 'quantity', header: 'Quantity', alignment: 'right' },
     { name: 'actions', header: 'Actions', alignment: 'right' }
