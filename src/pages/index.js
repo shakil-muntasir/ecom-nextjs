@@ -109,8 +109,8 @@ const HomePage = () => {
                 <span className='text-xs border border-gray-700 rounded-full w-6 h-6 inline-flex items-center justify-center'>{cartCount}</span>
               </button>
             </Link>
-            <Link href='/orders'>
-              <button className='text-[#F47458] text-orange px-3 py-2 rounded-md font-semibold hover:bg-gray-200'>Orders</button>
+            <Link href='/dashboard'>
+              <button className='text-[#F47458] text-orange px-3 py-2 rounded-md font-semibold hover:bg-gray-200'>Dashboard</button>
             </Link>
           </div>
         </div>

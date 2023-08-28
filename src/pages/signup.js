@@ -37,7 +37,7 @@ export default function Login() {
 
       localStorage.setItem('accessToken', response.data.accessToken)
 
-      router.push('/dashboard')
+      router.push('/')
     } catch (error) {
       setErrorMessage(() => {
         const errorMessage = error.response.data.message

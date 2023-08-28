@@ -59,7 +59,7 @@ const Table = ({ fields, data, source, clickable, handleDelete }) => {
                       } else if (field.name === clickable) {
                         return (
                           <td key={columnIndex} className={`flex hover:text-cyan-600 hover:cursor-pointer hover:underline text-${field.alignment ?? 'left'} whitespace-nowrap text-sm text-gray-500`}>
-                            <Link className='flex-1 px-6 py-4 inline-block' href={`/products/${item['id']}`}>
+                            <Link className='flex-1 px-6 py-4 inline-block' href={`/${source}/${item['id']}`}>
                               {item[field.name]}
                             </Link>
                           </td>

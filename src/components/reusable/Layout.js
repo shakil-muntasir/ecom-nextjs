@@ -58,7 +58,7 @@ const Layout = ({ children }) => {
   return !loading ? (
     <main className='flex'>
       <aside className='w-2/12 bg-white h-screen'>
-        <Link href='/dashboard'>
+        <Link href='/'>
           <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className='mx-auto h-16 w-16 text-[#F47458] mb-6'>
             <path
               strokeLinecap='round'
@@ -81,16 +81,32 @@ const Layout = ({ children }) => {
 
             <span className='ml-7 text-gray-900 text-lg'>Dashboard</span>
           </Link>
-          <Link href='/categories' className={`flex items-center mx-6 hover:bg-slate-100 px-7 py-1 rounded-md ${isActive('/categories') ? 'bg-slate-100' : ''}`}>
-            <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className='w-6 h-6'>
-              <path strokeLinecap='round' strokeLinejoin='round' d='M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z' />
-              <path strokeLinecap='round' strokeLinejoin='round' d='M6 6h.008v.008H6V6z' />
-            </svg>
 
-            <span className='ml-7 text-gray-900 text-lg'>Category</span>
-          </Link>
+          {userRoles.includes('admin') && (
+            <Link href='/categories' className={`flex items-center mx-6 hover:bg-slate-100 px-7 py-1 rounded-md ${isActive('/categories') ? 'bg-slate-100' : ''}`}>
+              <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className='w-6 h-6'>
+                <path strokeLinecap='round' strokeLinejoin='round' d='M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z' />
+                <path strokeLinecap='round' strokeLinejoin='round' d='M6 6h.008v.008H6V6z' />
+              </svg>
 
-          <Link href='/products' className={`flex items-center mx-6 hover:bg-slate-100 px-7 py-1 rounded-md ${isActive('/products') ? 'bg-slate-100' : ''}`}>
+              <span className='ml-7 text-gray-900 text-lg'>Category</span>
+            </Link>
+          )}
+
+          {userRoles.includes('admin') && (
+            <Link href='/products' className={`flex items-center mx-6 hover:bg-slate-100 px-7 py-1 rounded-md ${isActive('/products') ? 'bg-slate-100' : ''}`}>
+              <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className='w-6 h-6'>
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  d='M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125'
+                />
+              </svg>
+
+              <span className='ml-7 text-gray-900 text-lg'>Products</span>
+            </Link>
+          )}
+          <Link href='/orders' className={`flex items-center mx-6 hover:bg-slate-100 px-7 py-1 rounded-md ${isActive('/products') ? 'bg-slate-100' : ''}`}>
             <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className='w-6 h-6'>
               <path
                 strokeLinecap='round'
@@ -99,7 +115,7 @@ const Layout = ({ children }) => {
               />
             </svg>
 
-            <span className='ml-7 text-gray-900 text-lg'>Products</span>
+            <span className='ml-7 text-gray-900 text-lg'>Orders</span>
           </Link>
 
           <button onClick={submitLogout} className='flex items-center mx-6 hover:bg-slate-100 px-7 py-1 rounded-md'>
